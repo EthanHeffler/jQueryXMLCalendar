@@ -1,4 +1,7 @@
 $(document).ready(function () {
+	
+	var calendar = $('#calendar');
+	var doc = $(document);
 
     //checks if a certain element is a descendent of another element
     (function ($) {
@@ -12,7 +15,7 @@ $(document).ready(function () {
 
 
     //loads the datepicker
-    $('#calendar').datepicker({
+    calendar.datepicker({
         inline: true,
         firstDay: 0,
         showOtherMonths: true,
@@ -22,7 +25,7 @@ $(document).ready(function () {
 
 
     //setting global date variables
-    var date = $("#calendar").datepicker("getDate");
+    var date = calendar.datepicker("getDate");
     var month = date.getMonth() + 1;
     var year = date.getFullYear();
 
@@ -34,11 +37,11 @@ $(document).ready(function () {
 
 
     //previous and next month functions
-    $(document).on('click', '.ui-datepicker-next', function () {
+    doc.on('click', '.ui-datepicker-next', function () {
         month = month + 1;
         formatCalendar(date, month, year);
     });
-    $(document).on('click', '.ui-datepicker-prev', function () {
+    doc.on('click', '.ui-datepicker-prev', function () {
         month = month - 1;
         formatCalendar(date, month, year);
     });
@@ -54,21 +57,21 @@ $(document).ready(function () {
 
         //adds unique date ID for each table cell
         $('.ui-datepicker-calendar td').each(function () {
-
-            var day = $(this).text();
+			var thisTd = $(this);
+            var day = thisTd.text();
             var dateID = month + "_" + day + "_" + year;
 
             //hides dates and doesn't add IDs to tds not in current month
-            if ($(this).isChildOf('table tr:first-child') && day > 20) {
-                $(this).html("");
-            } else if ($(this).isChildOf('table tr:last-child') && day < 10) {
-                $(this).html("");
+            if (thisTd.isChildOf('table tr:first-child') && day > 20) {
+                thisTd.html("");
+            } else if (thisTd.isChildOf('table tr:last-child') && day < 10) {
+                thisTd.html("");
             } else {
-                $(this).attr("id", dateID);
+                thisTd.attr("id", dateID);
             }
 
             //disables built in clickability of td
-            $(this).attr("onclick", "");
+            thisTd.attr("onclick", "");
         });
 
             
